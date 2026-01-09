@@ -1,0 +1,37 @@
+replicaCount: 2
+
+image:
+  repository: azizaman/starbucks-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+container:
+  name: starbucks-container
+  port: 80
+
+strategy:
+  type: RollingUpdate
+
+labels:
+  app: starbucks
+
+
+service:
+  name: starbucks-service
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+
+ingress:
+  enabled: true
+  name: starbucks-ingress
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: app.383140420017.realhandsonlabs.net
+      paths:
+        - path: /dashboard
+          pathType: Prefix
+  servicePort: 80

@@ -12,7 +12,7 @@ const Footer = () => {
             <div className='p-8 px-4 sm:px-10 md:px-20 lg:pl-24  lg:pr-28 relative mt-3 '>
                 <div className='flex flex-wrap justify-between'>
                     <div className='min-w-[50px]'>
-                        <img src={logo} className="w-16" />
+                        <img src={logo} className="w-16" alt=''/>
                     </div>
                     <div className='flex flex-col text-white'>
                         <Link to={""} className="font-s_bold text-lg mb-4">AboutUS</Link>
@@ -47,10 +47,10 @@ const Footer = () => {
                     </div>
                     <div className='flex flex-col gap-5'>
                         <a href='https://apps.apple.com/in/app/starbucks-india/id1210203958'>
-                            <img src={appstoreiOSImage} />
+                            <img src={appstoreiOSImage}  alt=''/>
                         </a>
                         <a href='https://play.google.com/store/apps/details?id=com.starbucks.in'>
-                            <img src={appstoreAndroidImage} />
+                            <img src={appstoreAndroidImage} alt=''/>
                         </a>
                     </div>
                 </div>

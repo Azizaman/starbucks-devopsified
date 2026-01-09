@@ -1,0 +1,104 @@
+Code runs
+→ Tests pass
+→ SonarQube (quality)
+→ Trivy (security)
+→ ✅ LINTING  ← YOU ARE HERE
+→ Kubernetes YAMLs
+→ Argo CD
+→ CI/CD
+
+
+
+1)Create the Docker image with the multistage Docker build
+-  push the image in to docker hub
+-> docker login
+-  tag the image
+-> docker tag myapp:latest azizaman/myapp:latest
+-> docker push azizaman/starbucks-app:latest
+
+---
+
+2)SonarQube:
+-  install the sonarCube for the testing of the code
+-- Use the docker image
+->  docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+->  Download the sonar cube scanner from the offical website and unzip it.
+->  sudo mv sonar-scanner-8.0.1.6346-linux-x64/ /opt/sonar-scanner
+->  export PATH=$PATH:/opt/sonar-scanner/bin
+->  sonar-scanner --version
+-  Then from the website copy the command that is required for the scanning and paste in the terminal.
+->  sonar-scanner   -Dsonar.projectKey=starbucks-app   -Dsonar.sources=.   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=sqp_02ff9339cdf47e7d4187cd69cd250de5edec44b5
+-  Then go to the dashboard and u will see the results dashboard.
+
+---
+
+3)trivy:
+-  For trivy we can install or use docker image of trivy to scan the Dockerimage and source code
+-  First Build the image 
+-  Below are the commands to scan the Docker image.
+->  docker run --rm   -v /var/run/docker.sock:/var/run/docker.sock   aquasec/trivy:latest   image azizaman/starbucks-app:latest
+
+OR
+->  docker run --rm   -v /var/run/docker.sock:/var/run/docker.sock   aquasec/trivy:latest   image --severity HIGH,CRITICAL azizaman/starbucks-app:latest
+
+
+-  Below are the Commands to scan the source code run this in the root of the project
+->  docker run --rm   -v $(pwd):/project   aquasec/trivy:latest   fs /project
+
+OR
+->  docker run --rm \
+  -v $(pwd):/project \
+  aquasec/trivy:latest \
+  fs --severity HIGH,CRITICAL /project
+
+
+
+-  To use in the CICD pipelines
+->  docker run --rm \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  aquasec/trivy:latest \
+  image --exit-code 1 --severity HIGH,CRITICAL azizaman/starbucks-app:latest
+
+---
+
+-ESlint
+-  By default the react app has the ESlint installed use have to add it in the scripts in package.json.
+-> "lint": "eslint src --max-warnings=0"
+-  Then run the command:
+-> npm run lint
+
+---
+
+Kubernetes:
+-  create the Kubernetes cluster.
+-  install the kubectl
+-  connect the cluster to the CLI
+-> aws eks update-kubeconfig   --region us-east-1   --name aman-cluster
+-> kubectl get nodes
+-  Make a deployment yaml with the rollback stratagy.
+-  Make the service yaml
+-> kubectl apply -f deployment.yml
+-> kubectl apply -f service.yml
+-  make the nginx ingress 
+-  Test the deployment locally.
+-  If everything is working then start with the helm.
+
+-  Install helm
+-> sudo apt-get install curl gpg apt-transport-https --yes
+-> curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+-> echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+-> sudo apt-get update
+-> sudo apt-get install helm
+
+-  After the installtion create helm folder
+-> helm create <helm folder name>
+
+
+
+
+
+
+
+
+
+
