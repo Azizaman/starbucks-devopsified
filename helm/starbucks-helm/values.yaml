@@ -35,3 +35,4 @@ ingress:
         - path: /dashboard
           pathType: Prefix
   servicePort: 80
+  
