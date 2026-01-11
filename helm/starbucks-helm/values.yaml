@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: azizaman/starbucks-app
-  tag: "4af27093815433c3b82caa584dc53ec3aa117739"
+  tag: "bffb294f0496c3ff450b9e2c38a08a355a2611e2"
   pullPolicy: IfNotPresent
 
 container:
