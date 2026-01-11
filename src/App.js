@@ -12,6 +12,7 @@ import Store from './pages/Store';
 import Home from './pages/Home';
 import Search  from './pages/Search';
 import Footer from './components/Footer';
+// #This is a wate header
 
 function App() {
   return (
